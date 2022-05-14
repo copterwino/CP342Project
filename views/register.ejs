@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/mgalante/jquery.redirect@master/jquery.redirect.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+    crossorigin="anonymous"></script>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <link href="/public/authen.css" rel="stylesheet">
+  <title>Registration</title>
+</head>
+
+<body class="text-center" style="background-color:black;">
+  <main class="form">
+    <form id="reg-form">
+      <!--img class="mb-4" src="" alt="" height="300"-->
+      <h1 class="h3 mb-3 fw-normal" style="color:white;"><b>KBM</b> - Registration</h1>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="username" placeholder="Username" required>
+        <label for="floatingInput">Username<i style="color:red">*</i></label>
+      </div>
+      <p id="usernameErr"></p>
+      <div class="form-floating">
+        <input type="password" class="form-control" id="password" placeholder="Password" required>
+        <label for="floatingPassword">Password<i style="color:red">*</i></label>
+      </div>
+      <div class="form-floating">
+        <input type="password" class="form-control" id="password_re" placeholder="Repeat password" required>
+        <label for="floatingPassword">Confirm password<i style="color:red">*</i></label>
+      </div>
+      <div class="form-floating">
+        <input type="email" class="form-control" id="email" placeholder="Email" required>
+        <label for="floatingPassword">Email<i style="color:red">*</i></label>
+      </div>
+      <div class="form-floating address">
+        <input type="text" class="form-control" id="address" placeholder="Address">
+        <label for="floatingPassword">Address</label>
+      </div>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="phone" placeholder="Phone">
+        <label for="floatingPassword">Phone</label>
+      </div>
+      <button class="w-100 btn btn-lg btn-primary mt-3 register-btn" type="submit">Register</button>
+    </form>
+
+  </main>
+  <script src="/public/register.js"></script>
+
+
+</body>
+
+</html>
