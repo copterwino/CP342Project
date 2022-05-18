@@ -6,6 +6,8 @@ var bodyParser = require('body-parser');
 var bcrypt = require('bcryptjs');
 var fs = require('fs');
 var jwt = require('jsonwebtoken');
+const moment = require('moment');
+
 var User = require('./models/user');
 var Concert = require('./models/concert')
 var JWT_SECRET = '$!fgasf(^*&(gl@$fdaf*&%UTRgfadgsagaewae@$@(^*&(^fsa!#$!%@$&^';
@@ -39,18 +41,16 @@ mongoose.connect(mongoURI), {
 
 //Index page
 app.get('/', function (req, res) {
-    Concert.find((err, docs) => {
+    Concert.find({conDate:{$gte:new Date()}},(err, docs) => {
         if (!err) {
             res.render("index", {
-                data: docs
+                data: docs,
+                moment: moment
             });
         } else {
             console.log('Failed to retrieve the Concert List: ' + err);
         }
     });
-});
-app.get("/secret", isLoggedIn, function (req, res) {
-    res.render("secret");
 });
 
 //Login form
@@ -154,10 +154,6 @@ app.post("/api/register", async (req, res) => {
     }
     res.json({ status: 'ok' });
 });
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) return next();
-    res.redirect("/login");
-}
 
 //Management page
 app.get('/manage', function (req, res) {
@@ -166,7 +162,16 @@ app.get('/manage', function (req, res) {
 
 //Concert page
 app.get('/concert', function (req, res) {
-    res.render('concert')
+    Concert.find({conDate:{$gte:new Date()}},(err, docs) => {
+        if (!err) {
+            res.render("concert", {
+                data: docs,
+                moment: moment
+            });
+        } else {
+            console.log('Failed to retrieve the Concert List: ' + err);
+        }
+    });
 });
 app.post('/api/insertConcert', async (req, res) => {
     var {
@@ -193,6 +198,25 @@ app.post('/api/insertConcert', async (req, res) => {
             conPoster
         })
         console.log('User created successfully: ', responese);
+    } catch (error) {
+        console.log(error)
+        res.json({ status: 'error', error: ';)' })
+        throw error
+    }
+    res.json({ status: 'ok' });
+});
+
+//Delete
+app.post('/api/deleteConcert', async (req, res) => {
+    var {
+        conID
+    } = req.body;
+    console.log(conID);
+    try {
+        var responese = await Concert.remove({
+            _id:{$eq:conID}
+        })
+        console.log('Remove successfully: ', responese);
     } catch (error) {
         console.log(error)
         res.json({ status: 'error', error: ';)' })

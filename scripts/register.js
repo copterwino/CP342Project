@@ -1,6 +1,7 @@
-const form = document.getElementById('reg-form');
-if (form) {
-    form.addEventListener('submit', registerUser);
+//
+const reg_form = document.getElementById('reg-form');
+if (reg_form) {
+    reg_form.addEventListener('submit', registerUser);
 }else{
     console.log('null');
 }

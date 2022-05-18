@@ -42,14 +42,16 @@
                             if(i==3){ %>
                                 </div>
                                 <div class="w3-row-padding w3-padding-32" style="margin:0 -16px">
-
                             <% } %>
+                            <if
                             <div class="w3-third w3-margin-bottom">
                                 <img src=<%=data[i].conPoster%> alt=data[i].conName style="width:100%"
                                     class="w3-hover-opacity">
                                 <div class="w3-container w3-white">
-                                    <p><b><%= data[i].artistName %></b></p>
-                                    <p class="w3-opacity"><%= data[i].conDate.startDate %> to <%= data[i].conDate.endDate %> </p>
+                                    <h3><b><%= data[i].conName %></b></h3>
+                                    <p><b>Artist: </b><%= data[i].artistName %></p>
+                                    <p><b>Date: </b><%= moment(data[i].conDate).format("DD MMMM YYYY"); %></p>
+                                    <p><b>Time: </b><%= data[i].conTime.startTime%> - <%= data[i].conTime.endTime %></p>
                                     <p><%= data[i].conName %></p>
                                     <button class="w3-button w3-black w3-margin-bottom"
                                         onclick="document.getElementById('ticketModal').style.display='block'">Buy
@@ -60,99 +62,22 @@
                                      
                      }else{ %>
                                  <tr>
-                                    <td colspan="3">No user</td>
+                                    <h5 class="w3-wide w3-center">No concert available at this time.</h5>
                                  </tr>
-                    <% } %> 
-                    <!-- <div class="w3-row-padding w3-padding-32" style="margin:0 -16px">
-                        <div class="w3-third w3-margin-bottom">
-                            <img src="https://imgur.com/Jd3YSdO.png" alt="San Francisco" style="width:100%"
-                                class="w3-hover-opacity">
-                            <div class="w3-container w3-white">
-                                <p><b>Justin Bieber</b></p>
-                                <p class="w3-opacity">Sun 9 Nov 2022</p>
-                                <p>The Justice World Tour IN BANGKOK 2022. </p>
-                                <button class="w3-button w3-black w3-margin-bottom"
-                                    onclick="document.getElementById('ticketModal').style.display='block'">Buy
-                                    Tickets</button>
-                            </div>
-                        </div>
-
-                        <div class="w3-third w3-margin-bottom">
-                            <img src="/public/imag/postercon/22.png" alt="Paris" style="width:100%"
-                                class="w3-hover-opacity">
-                            <div class="w3-container w3-white">
-                                <p><b>MARK TUAN</b></p>
-                                <p class="w3-opacity">Sat 28 MAY 2022</p>
-                                <p>"PULL-UP" to the fan meeting!! 🙏🏻
-                                    This ones gonna be special! </p>
-                                <button class="w3-button w3-black w3-margin-bottom"
-                                    onclick="document.getElementById('ticketModal').style.display='block'">Buy
-                                    Tickets</button>
-                            </div>
-                        </div>
-                        <div class="w3-third w3-margin-bottom">
-                            <img src="/public/imag\postercon\19.png" alt="Paris" style="width:100%"
-                                class="w3-hover-opacity">
-                            <div class="w3-container w3-white">
-                                <p><b>BLACKPINK</b></p>
-                                <p class="w3-opacity">Sat 11 Sep 2022</p>
-                                <p>สารพัดฉากสวยๆ กองทัพแดนเซอร์โชว์เดี่ยวพิเศษจาก BLACKPINK</p>
-                                <button class="w3-button w3-black w3-margin-bottom"
-                                    onclick="document.getElementById('ticketModal').style.display='block'">Buy
-                                    Tickets</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="w3-row-padding w3-padding-32" style="margin:0 -16px">
-                        <div class="w3-third w3-margin-bottom">
-                            <img src="/public/imag\postercon\16.png" alt="Paris" style="width:100%"
-                                class="w3-hover-opacity">
-                            <div class="w3-container w3-white">
-                                <p><b>Palitchoke</b></p>
-                                <p class="w3-opacity">Sat 28 Nov 2022</p>
-                                <p>ตำแหน่งซูเปอร์สตาร์ในดวงใจแฟนคลับทุกเพศทุกวัย</p>
-                                <button class="w3-button w3-black w3-margin-bottom"
-                                    onclick="document.getElementById('ticketModal').style.display='block'">Buy
-                                    Tickets</button>
-                            </div>
-                        </div>
-                        <div class="w3-third w3-margin-bottom">
-                            <img src="/public/imag\postercon\15.png" alt="Paris" style="width:100%"
-                                class="w3-hover-opacity">
-                            <div class="w3-container w3-white">
-                                <p><b>Kugimiya</b></p>
-                                <p class="w3-opacity">Sat 10 Dec 2022</p>
-                                <p>หวีดสุดเสียงคอนเสิร์ตครั้งแรกในชีวิตของซุป'ตาร์ของเมืองไทย </p>
-                                <button class="w3-button w3-black w3-margin-bottom"
-                                    onclick="document.getElementById('ticketModal').style.display='block'">Buy
-                                    Tickets</button>
-                            </div>
-                        </div>
-                        <div class="w3-third w3-margin-bottom">
-                            <img src="/public/imag/postercon/1.png" alt="New York" style="width:100%" class="w3-hover-opacity">
-                            <div class="w3-container w3-white">
-                                <p><b>THAITANIUM</b></p>
-                                <p class="w3-opacity">Fri 15 Oct 2022</p>
-                                <p>การกลับมารวมตัวกนอีกครั้งของพวกเค้า งานนี้ต้องห้ามพลาด</p>
-                                <button class="w3-button w3-black w3-margin-bottom"
-                                    onclick="document.getElementById('ticketModal').style.display='block'">Buy
-                                    Tickets</button>
-                            </div>
-                        </div>
-                    </div>-->                                          
+                    <% } %>                                         
                 </div>
             </div> 
 
-            <!-- Ticket Modal
+            <!-- Ticket Modal -->
             <div id="ticketModal" class="w3-modal">
                 <div class="w3-modal-content w3-animate-top w3-card-4">
                     <header class="w3-container w3-teal w3-center w3-padding-32">
                         <span onclick="document.getElementById('ticketModal').style.display='none'"
                             class="w3-button w3-teal w3-xlarge w3-display-topright">×</span>
-                        <h2 class="w3-wide"><i class="fa fa-suitcase w3-margin-right"></i>Tickets</h2>
+                        <h2 class="w3-wide"></i>Tickets</h2>
                     </header>
                     <div class="w3-container">
-                        <p><label><i class="fa fa-shopping-cart"></i> Tickets, $15 per person</label></p>
+                        <p><label> Tickets, $15 per person</label></p>
                         <input class="w3-input w3-border" type="text" placeholder="How many?">
                         <p><label><i class="fa fa-user"></i> Send To</label></p>
                         <input class="w3-input w3-border" type="text" placeholder="Enter email">
@@ -162,10 +87,9 @@
                             onclick="document.getElementById('ticketModal').style.display='none'">Close <i
                                 class="fa fa-remove"></i></button>
                         <p class="w3-right">Need <a href="#" class="w3-text-blue">help?</a></p>
-
                     </div>
                 </div>
-            </div> -->
+            </div>
 
         <%- include('./partials/footer'); %>
             <script src="/public/index.js"></script>

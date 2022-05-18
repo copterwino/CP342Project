@@ -3,10 +3,7 @@ const mongoose = require('mongoose');
 const ConcertSchema = new mongoose.Schema({
     conName: { type: String, required: true },
     artistName: { type: String, required: true },
-    conDate: {
-        startDate: { type: String },
-        endDate: { type: String }
-    },
+    conDate: {type:Date,required:true},
     conTime: {
         startTime: { type: String },
         endTime: { type: String }

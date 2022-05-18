@@ -58,7 +58,10 @@ label {
     color: white;
     text-align: left !important;
 }
-
+#edit-form label {
+    color: black;
+    text-align: left !important;
+}
 input {
     width: 13rem;
     padding: .375rem .75rem;
@@ -75,19 +78,42 @@ input {
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
+.w3-animate-top {
+    position: absolute;
+    position: absolute;
+    left: 50%;
+    top: 50%; 
+    margin-left: -150px;
+    margin-top: -150px;
+}
+.w3-section, .w3-code {
+    margin-top: 16px!important;
+    margin-bottom: 0px!important;
+}
+
+
 @media (min-width: 400px) {
     input {
         float: right;
     }
+
     label {
         display: inline-block;
     }
 }
-@media(max-width:400px){
-    input{
-        box-sizing: unset!important;
+
+@media(max-width:400px) {
+    input {
+        box-sizing: unset !important;
     }
-    label{
-        box-sizing: unset!important;
+
+    label {
+        box-sizing: unset !important;
+    }
+}
+
+@media (min-width: 993px) {
+    .w3-modal-content {
+        width: 30rem;
     }
 }
