@@ -39,7 +39,15 @@ mongoose.connect(mongoURI), {
 
 //Index page
 app.get('/', function (req, res) {
-    res.render('index');
+    Concert.find((err, docs) => {
+        if (!err) {
+            res.render("index", {
+                data: docs
+            });
+        } else {
+            console.log('Failed to retrieve the Concert List: ' + err);
+        }
+    });
 });
 app.get("/secret", isLoggedIn, function (req, res) {
     res.render("secret");
