@@ -1,30 +1,36 @@
-const concert_form = document.getElementById('concert-form');
-const edit_form = document.getElementById('edit-form');
-const delete_form = document.getElementById('delete-form');
-
-concert_form.addEventListener('submit', insertCon);
-// edit_form.addEventListener('submit', editCon);
-delete_form.addEventListener('submit', deleteCon);
-if(delete_form){
-    console.log('ok');
+var conNumber = '';
+try {
+    for (var j = 0; j < i; j++) {
+        var formEditID = 'edit-form'+j;
+        var formDeleteID = 'delete-form'+j;
+        const edit_form = document.getElementById(formEditID);
+        const delete_form = document.getElementById(formDeleteID);
+        edit_form.addEventListener('submit',editCon);
+        delete_form.addEventListener('submit', deleteCon);
+    }
+} catch (err) {
+    console.log('No concert available at this time.');
 }
-async function insertCon(event) {
-    event.preventDefault();
-    const conName = document.getElementById('conName').value;
-    const artistName = document.getElementById('artistName').value;
-    const conDate = new Date(document.getElementById('conDate').value);
-    const conStartTime = document.getElementById('conStartTime').value;
-    const conEndTime = document.getElementById('conEndTime').value;
-    const conDescription = document.getElementById('conDescription').value;
-    const conPoster = document.getElementById('conPoster').value;
 
-    console.log(conPoster);
-    const result = await fetch('/api/insertConcert', {
+//Edit finction
+async function editCon(event) {
+    event.preventDefault();
+    console.log(conNumber);
+    const conIDValue = document.getElementById('conID'+conNumber).value;
+    const conName = document.getElementById('conName'+conNumber).value;
+    const artistName = document.getElementById('artistName'+conNumber).value;
+    const conDate = new Date(document.getElementById('conDate'+conNumber).value);
+    const conStartTime = document.getElementById('conStartTime'+conNumber).value;
+    const conEndTime = document.getElementById('conEndTime'+conNumber).value;
+    const conDescription = document.getElementById('conDescription'+conNumber).value;
+    const conPoster = document.getElementById('conPoster'+conNumber).value;
+    const result = await fetch('/api/editConcert', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+            conID: conIDValue,
             conName: conName,
             artistName:artistName,
             conDate:conDate,
@@ -38,10 +44,10 @@ async function insertCon(event) {
         // everythign went fine
         Swal.fire({
             title: 'Success!',
-            text: 'Insert Successfully!',
+            text: 'Edit Successfully!',
             icon: 'success',
             confirmButtonText: 'OK'
-        }).then(() => window.location.href="/concert");
+        }).then(() => window.location.href = "/concert");
     } else {
         Swal.fire({
             title: 'Oops!',
@@ -52,17 +58,17 @@ async function insertCon(event) {
     }
 }
 
+//Delete function
 async function deleteCon(event) {
     event.preventDefault();
-    const conID = document.getElementById('conID').value;
-    console.log(conID);
+    const conIDValue = document.getElementById('conID'+conNumber).value;
     const result = await fetch('/api/deleteConcert', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            conID: conID
+            conID: conIDValue
         })
     }).then((res) => res.json());
 
@@ -73,7 +79,7 @@ async function deleteCon(event) {
             text: 'Remove Successfully!',
             icon: 'success',
             confirmButtonText: 'OK'
-        }).then(() => window.location.href="/concert");
+        }).then(() => window.location.href = "/concert");
     } else {
         Swal.fire({
             title: 'Oops!',

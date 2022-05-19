@@ -58,10 +58,12 @@ label {
     color: white;
     text-align: left !important;
 }
-#edit-form label {
+
+.edit-form label {
     color: black;
     text-align: left !important;
 }
+
 input {
     width: 13rem;
     padding: .375rem .75rem;
@@ -82,15 +84,27 @@ input {
     position: absolute;
     position: absolute;
     left: 50%;
-    top: 50%; 
+    top: 50%;
     margin-left: -150px;
     margin-top: -150px;
 }
-.w3-section, .w3-code {
-    margin-top: 16px!important;
-    margin-bottom: 0px!important;
+
+.w3-section,
+.w3-code {
+    margin-top: 16px !important;
+    margin-bottom: 0px !important;
 }
 
+.noButton {
+    display: inline-block;
+}
+.imageContainer {
+    transition:transform 0.25s ease;
+}
+.imageContainer>img:hover {
+    -webkit-transform:scale(2); /* or some other value */
+    transform:scale(2);
+}
 
 @media (min-width: 400px) {
     input {

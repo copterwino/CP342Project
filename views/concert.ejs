@@ -34,9 +34,9 @@
                 </div>
                 <div class="w3-row-padding w3-padding-32" style="margin:0 -16px">
                     <% } %>
-                        <if <div class="w3-third w3-margin-bottom">
-                            <img src=<%=data[i].conPoster %> alt=data[i].conName style="width:100%"
-                            class="w3-hover-opacity">
+                        <div class="w3-third w3-margin-bottom">
+                            <img src="<%=data[i].conPoster %>" alt="<%= data[i].conName %>" style="width:100%"
+                                class="w3-hover-opacity">
                             <div class="w3-container w3-white">
                                 <h3><b>
                                         <%= data[i].conName %>
@@ -58,131 +58,105 @@
                                 <button class="w3-button w3-red w3-margin-bottom w3-right"
                                     onclick="document.getElementById('delete<%= i %>').style.display='block'">Remove</button>
                             </div>
+                        </div>
+                        <% } }else{ %>
+                            <tr>
+                                <h5 class="w3-wide w3-center">No concert available at this time.</h5>
+                            </tr>
+                            <% } %>
                 </div>
-                <% } }else{ %>
-                    <tr>
-                        <h5 class="w3-wide w3-center">No concert available at this time.</h5>
-                    </tr>
-                    <% } %>
             </div>
-        </div>
-        <% if(data.length){ for(var i=0; i< data.length; i++){ %>
-            <!-- Edit Modal -->
-            <div id='edit<%= i %>' class="w3-modal">
-                <div class="w3-modal-content w3-card-4">
-                    <span onclick="document.getElementById('edit<%= i %>').style.display='none'"
-                        class="w3-button w3-white w3-xlarge w3-display-topright">×</span>
-                    <div class="w3-container w3-white w3-center w3-padding-32" style="color:black">
-                        <h2 class="w3-wide mb-4"></i>Edit '<%= data[i].conName %>'</h2>
-                        <form id="edit-form" action="/api/insertConcert">
-                            <input type="text" id="conID" style="display:none" value='<%= data[i]._id %>' required>
-                            <div class="block">
-                                <label class="h5 mb-4 fw-normal ">Concert name<i style="color:red">* </i> : </label>
-                                <input type="text" id="conEditName" placeholder="Concert name"
-                                    value='<%= data[i].conName %>' required>
-                            </div>
-                            <div class="block">
-                                <label class="h5 mb-4 fw-normal ">Artist name<i style="color:red">*</i> : </label>
-                                <input type="text" id="artistName" placeholder="Artist name"
-                                    value='<%= data[i].artistName %>' required>
-                            </div>
-                            <div class="block">
-                                <label class="h5 mb-4 fw-normal">Concert date<i style="color:red">*</i> : </label>
-                                <input type="date" id="conEditDate" placeholder="dd-mm-yyyy" required>
-                            </div>
-                            <div class="block">
-                                <label class="h5 mb-4 fw-normal">Concert start time<i style="color:red">*</i> : </label>
-                                <input type="time" id="conStartTime" placeholder="Concert start date" required>
-                            </div>
-                            <div class="block">
-                                <label class="h5 mb-4 fw-normal">Concert end time<i style="color:red">*</i> : </label>
-                                <input type="time" id="conEndTime" placeholder="Concert start date" required>
-                            </div>
-                            <div class="block">
-                                <label class="h5 mt-4 mb-4 fw-normal">Concert description<i style="color:red">*</i> :
-                                </label>
-                                <textarea class='mb-4' id="conDescription" name="w3review" rows="2" cols="50"
-                                    placeholder="Concert description"><%= data[i].conDescription %></textarea>
-                            </div>
-                            <div class="block">
-                                <label class="h5 mb-4 fw-normal">Concert poster image link (.png or .jpg)<i
-                                        style="color:red">*</i>
-                                    : </label>
-                                <input type="text" id="conPoster" name="file" style="width:100%"
-                                    placeholder="Concert poster image link" value='<%= data[i].conPoster %>' required>
-                            </div>
-                            <div class="w3-container">
+            <% if(data.length){ for(var i=0; i< data.length; i++){ %>
+                <!-- Edit Modal -->
+                <div id='edit<%= i %>' class="w3-modal">
+                    <div class="w3-modal-content w3-card-4">
+                        <span onclick="document.getElementById('edit<%= i %>').style.display='none'"
+                            class="w3-button w3-white w3-xlarge w3-display-topright">×</span>
+                        <div class="w3-container w3-white w3-center w3-padding-32" style="color:black">
+                            <h2 class="w3-wide mb-4"></i><b>Edit '<%= data[i].conName %>'</b></h2>
+                            <form id="edit-form<%= i %>" class="edit-form" action="/api/insertConcert">
+                                <input type="text" id="conID<%= i %>" style="display:none" value='<%= data[i]._id %>'
+                                    required>
+                                <div class="block">
+                                    <label class="h5 mb-4 fw-normal ">Concert name<i style="color:red">* </i> : </label>
+                                    <input type="text" id="conName<%= i %>" placeholder="Concert name"
+                                        value='<%= data[i].conName %>' required>
+                                </div>
+                                <div class="block">
+                                    <label class="h5 mb-4 fw-normal ">Artist name<i style="color:red">*</i> : </label>
+                                    <input type="text" id="artistName<%= i %>" placeholder="Artist name"
+                                        value='<%= data[i].artistName %>' required>
+                                </div>
+                                <div class="block">
+                                    <label class="h5 mb-4 fw-normal">Concert date<i style="color:red">*</i> : </label>
+                                    <input type="date" id="conDate<%= i %>" placeholder="dd-mm-yyyy"
+                                        min="<%= moment(new Date()).add(1,'days').format('YYYY-MM-DD'); %>" required>
+                                </div>
+                                <div class="block">
+                                    <label class="h5 mb-4 fw-normal">Concert start time<i style="color:red">*</i> :
+                                    </label>
+                                    <input type="time" id="conStartTime<%= i %>" placeholder="Concert start date"
+                                        required>
+                                </div>
+                                <div class="block">
+                                    <label class="h5 mb-4 fw-normal">Concert end time<i style="color:red">*</i> :
+                                    </label>
+                                    <input type="time" id="conEndTime<%= i %>" placeholder="Concert start date"
+                                        required>
+                                </div>
+                                <div class="block">
+                                    <label class="h5 mt-4 mb-4 fw-normal">Concert description<i style="color:red">*</i>
+                                        :
+                                    </label>
+                                    <textarea class='mb-4' id="conDescription<%= i %>" name="w3review" rows="2"
+                                        cols="50"
+                                        placeholder="Concert description"><%= data[i].conDescription %></textarea>
+                                </div>
+                                <div class="block">
+                                    <label class="h5 mb-4 fw-normal">Concert poster image link (.png or .jpg)<i
+                                            style="color:red">*</i>
+                                        : </label>
+                                    <input type="text" id="conPoster<%= i %>" name="file" style="width:100%"
+                                        placeholder="Concert poster image link" value='<%= data[i].conPoster %>'
+                                        required>
+                                </div>
                                 <button class="w3-button w3-green w3-section w3-left w3-round-xxlarge"
-                                    onclick="deleteConcert()">Submit</button>
-                        </form>
-
-                        <button class="w3-button w3-red w3-section w3-right w3-round-xlarge"
-                            onclick="document.getElementById('edit').style.display='none'">Cancel</button>
+                                    onclick="conNumber='<%= i %>';" type="submit">Submit</button>
+                            </form>
+                            <button class="w3-button w3-red w3-section w3-right w3-round-xlarge"
+                                onclick="document.getElementById('edit<%= i %>').style.display='none'">Cancel</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            </div>
-            <!-- Delete Modal -->
-            <div id="delete<%= i %>" class="w3-modal">
+        </div>
+        <!-- Delete Modal -->
+        <div id="delete<%= i %>" class="w3-modal">
+            <span>
                 <div class="w3-modal-content w3-card-4">
                     <header class="w3-container w3-white w3-center w3-padding-32">
                         <h3 class="w3-wide"></i>Are you sure you want to remove '<%= data[i].conName %>'</h3>
-                        <form id="delete-form">
-                            <input type="text" id="conID" style="display:none" value='<%= data[i]._id %>' required>
-                            <div class="w3-container">
-                                <button class="w3-button w3-green w3-section w3-left w3-round-xxlarge"
-                                     type="submit">Yes</button>
+                        <form id="delete-form<%= i %>">
+                            <input type="text" id="conID<%= i %>" style="display:none" value='<%= data[i]._id %>'
+                                required>
+                            <button class="w3-button w3-green w3-section w3-left w3-round-xxlarge" type="submit"
+                                onclick="conNumber='<%= i %>';">Yes</button>
                         </form>
-                        <button class="w3-button w3-red w3-section w3-right w3-round-xlarge"
+                        <button class="w3-button w3-red w3-section w3-right w3-round-xlarge no"
                             onclick="document.getElementById('delete<%= i %>').style.display='none'">No</button>
                 </div>
                 </header>
-            </div>
-            </div>
-            <% } } %>
-                <hr class="mb-5 mt-5 text-center" style="color:gray">
-                <main class="form">
-
-                    <h2 class="h3 mb-4 fw-normal text-center" style="color:#00ffcb;">Insert a new concert</h2>
-                    <form id="concert-form" action="/api/insertConcert">
-                        <div class="block">
-                            <label class="h5 mb-4 fw-normal ">Concert name<i style="color:red">* </i> : </label>
-                            <input type="text" id="conName" placeholder="Concert name" required>
-                        </div>
-                        <div class="block">
-                            <label class="h5 mb-4 fw-normal ">Artist name<i style="color:red">*</i> : </label>
-                            <input type="text" id="artistName" placeholder="Artist name" required>
-                        </div>
-                        <div class="block">
-                            <label class="h5 mb-4 fw-normal">Concert date<i style="color:red">*</i> : </label>
-                            <input type="date" id="conDate" placeholder="dd-mm-yyyy" min="<%= moment(new Date()).add(1,'days').format('YYYY-MM-DD'); %>"  required>
-                        </div>
-                        <div class="block">
-                            <label class="h5 mb-4 fw-normal">Concert start time<i style="color:red">*</i> : </label>
-                            <input type="time" id="conStartTime" placeholder="Concert start date" required>
-                        </div>
-                        <div class="block">
-                            <label class="h5 mb-4 fw-normal">Concert end time<i style="color:red">*</i> : </label>
-                            <input type="time" id="conEndTime" placeholder="Concert start date" required>
-                        </div>
-                        <div class="block">
-                            <label class="h5 mt-4 mb-4 fw-normal">Concert description<i style="color:red">*</i> :
-                            </label>
-                            <textarea id="conDescription" name="w3review" rows="2" cols="50"
-                                placeholder="Concert description"></textarea>
-                        </div>
-                        <div class="block">
-                            <label class="h5 mb-4 fw-normal">Concert poster image link (.png or .jpg)<i
-                                    style="color:red">*</i>
-                                : </label>
-                            <input type="text" id="conPoster" name="file" style="width:100%"
-                                placeholder="Concert poster image link" required>
-                        </div>
-
-                        <button class="w-100 btn btn-lg btn-primary mt-4" type="submit">Insert</button>
-                    </form>
-                </main>
-                <script src="/public/concert.js"></script>
+        </div>
+        </span>
+        </div>
+        <% } } %>
+            <center>
+                <button class="w-100 btn btn-lg btn-primary mt-4 w3-center form"
+                    onclick="document.location='/insertCon'">Insert a new concert</button>
+            </center>
+            <script>
+                i = <%= i %>;
+            </script>
+            <script src="/public/concert.js"></script>
 </body>
 
 </html>

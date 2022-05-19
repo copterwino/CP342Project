@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mgalante/jquery.redirect@master/jquery.redirect.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="/public/style.css" rel="stylesheet">
+    <link href="/public/concert.css" rel="stylesheet">
+    <title>Concerts</title>
+</head>
+
+<body style="background-color:black;">
+    <%- include('./partials/navbar'); %>
+        <main class="form">
+            <h2 class="h3 mb-4 fw-normal text-center" style="color:#00ffcb;">Insert a new concert</h2>
+            <form id="insert-form" action="/api/insertConcert">
+                <div class="block">
+                    <label class="h5 mb-4 fw-normal ">Concert name<i style="color:red">* </i> : </label>
+                    <input type="text" id="conName" placeholder="Concert name" required>
+                </div>
+                <div class="block">
+                    <label class="h5 mb-4 fw-normal ">Artist name<i style="color:red">*</i> : </label>
+                    <input type="text" id="artistName" placeholder="Artist name" required>
+                </div>
+                <div class="block">
+                    <label class="h5 mb-4 fw-normal">Concert date<i style="color:red">*</i> : </label>
+                    <input type="date" id="conDate" placeholder="dd-mm-yyyy"
+                        min="<%= moment(new Date()).add(1,'days').format('YYYY-MM-DD'); %>" required>
+                </div>
+                <div class="block">
+                    <label class="h5 mb-4 fw-normal">Concert start time<i style="color:red">*</i> : </label>
+                    <input type="time" id="conStartTime" placeholder="Concert start date" required>
+                </div>
+                <div class="block">
+                    <label class="h5 mb-4 fw-normal">Concert end time<i style="color:red">*</i> : </label>
+                    <input type="time" id="conEndTime" placeholder="Concert start date" required>
+                </div>
+                <div class="block">
+                    <label class="h5 mt-4 mb-4 fw-normal">Concert description<i style="color:red">*</i> :
+                    </label>
+                    <textarea id="conDescription" name="w3review" rows="2" cols="50"
+                        placeholder="Concert description"></textarea>
+                </div>
+                <div class="block">
+                    <label class="h5 mb-4 fw-normal">Concert poster image link (.png or .jpg)<i style="color:red">*</i>
+                        : </label>
+                    <input type="text" id="conPoster" name="file" style="width:100%"
+                        placeholder="Concert poster image link" required>
+                </div>
+                <center>
+                    <button class="w-100 btn btn-lg btn-primary mt-4 w3-center" type="submit">Insert</button>
+                </center>
+            </form>
+        </main>
+        <script src="/public/insertCon.js"></script>
+</body>
+
+</html>
