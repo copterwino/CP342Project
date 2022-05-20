@@ -2,6 +2,7 @@ const insert_form = document.getElementById('insert-form');
 insert_form.addEventListener('submit', insertCon);
 async function insertCon(event) {
     event.preventDefault();
+    const hallName = document.getElementById('hallName').value;
     const conName = document.getElementById('conName').value;
     const artistName = document.getElementById('artistName').value;
     const conDate = new Date(document.getElementById('conDate').value);
@@ -17,6 +18,7 @@ async function insertCon(event) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+            hallName:hallName,
             conName: conName,
             artistName:artistName,
             conDate:conDate,

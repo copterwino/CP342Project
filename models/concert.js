@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 //Concert schema
 const ConcertSchema = new mongoose.Schema({
+    hallName:{ type: String, required: true },
     conName: { type: String, required: true },
     artistName: { type: String, required: true },
     conDate: {type:Date,required:true},

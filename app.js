@@ -12,6 +12,7 @@ var User = require('./models/user');
 var Slide = require('./models/slide')
 var Hall = require('./models/hall')
 var Concert = require('./models/concert')
+var Zone = require('./models/zone')
 var JWT_SECRET = '$!fgasf(^*&(gl@$fdaf*&%UTRgfadgsagaewae@$@(^*&(^fsa!#$!%@$&^';
 
 
@@ -158,7 +159,29 @@ app.post("/api/register", async (req, res) => {
     }
     res.json({ status: 'ok' });
 });
-
+//Buying Page
+app.get('/buyTicket', function (req, res) {
+    const conNumber = req.query.conNumber;
+    const hallName = req.query.hallName;
+    let hall = Hall.findOne({hallName:hallName});
+    let concert = Concert.find({ conDate: { $gte: new Date() } });
+    let slide = Slide.find({ slideEXPDate: { $gte: new Date() } });
+    let zone = Zone.find();
+    Promise.all([concert,slide,hall,zone]).then(result => {
+        res.render("buyTicket", {
+            hall:hall,
+            conNumber:conNumber,
+            data: result[0],
+            slide:result[1],
+            hall:result[2],
+            zone:result[3],
+            moment: moment
+        });
+    }).catch(err => {
+        //handle your error here
+        console.log('Failed to retrieve the Concert List: ' + err);
+    })
+});
 //Management page
 app.get('/manage', function (req, res) {
     res.render('manage');
@@ -197,7 +220,7 @@ app.post('/api/insertSlide', async (req, res) => {
     }
     res.json({ status: 'ok' });
 });
-//Delete hall
+//Delete slide
 app.post('/api/deleteSlide', async (req, res) => {
     var {
         slideID
@@ -266,6 +289,71 @@ app.post('/api/deleteHall', async (req, res) => {
     }
     res.json({ status: 'ok' });
 });
+
+//Zone page
+app.get('/zone', function (req, res) {
+    let hall = Hall.find();
+    let zone = Zone.find();
+    Promise.all([hall,zone]).then(result => {
+        res.render("zone", {
+            hall:result[0],
+            zone:result[1],
+            moment: moment
+        });
+    }).catch(err => {
+        //handle your error here
+        console.log('Failed to retrieve the Concert List: ' + err);
+    })
+});
+//Insert zone
+app.post('/api/insertZone', async (req, res) => {
+    var {
+        hallName,
+        zoneName,
+        zonePrice,
+        zoneNumberOfSeat
+        
+    } = req.body;
+    if (!zoneName || typeof zoneName !== 'string') {
+        return res.json({ status: 'error', error: 'Invalid hall name' })
+    }
+    try {
+        var responese = await Zone.create({
+            hallName,
+            zoneName,
+            zonePrice,
+            zoneNumberOfSeat
+        })
+        console.log('Inserted successfully: ', responese);
+    } catch (error) {
+        console.log(error)
+        if (error.keyPattern.zoneName == 1 && error.code == 11000) {
+            return res.json({ status: 'error', error: 'This zone name is already in use.' })
+        }
+        throw error
+    }
+    res.json({ status: 'ok' });
+});
+//Delete zone
+app.post('/api/deleteZone', async (req, res) => {
+    var {
+        zoneID
+    } = req.body;
+    try {
+        var responese = await Zone.remove({
+            _id: { $eq: zoneID }
+        })
+        console.log('Remove successfully: ', responese);
+    } catch (error) {
+        // duplicate key
+        if (error.keyPattern.zoneName == 1 && error.code == 11000) {
+            return res.json({ status: 'error', error: 'This zone name is already in use.' })
+        }
+        throw error
+    }
+    res.json({ status: 'ok' });
+});
+
 //Concert page
 app.get('/concert', function (req, res) {
     Concert.find({ conDate: { $gte: new Date() } }, (err, docs) => {
@@ -281,10 +369,20 @@ app.get('/concert', function (req, res) {
 });
 //InsertCon page
 app.get('/insertCon', function (req, res) {
-    res.render('insertCon', { moment: moment });
+    let hall = Hall.find();
+    Promise.all([hall]).then(result => {
+        res.render("insertCon", {
+            hall:result[0],
+            moment: moment
+        });
+    }).catch(err => {
+        //handle your error here
+        console.log('Failed to retrieve the Concert List: ' + err);
+    })
 });
 app.post('/api/insertConcert', async (req, res) => {
     var {
+        hallName,
         conName,
         artistName,
         conDate,
@@ -300,6 +398,7 @@ app.post('/api/insertConcert', async (req, res) => {
     }
     try {
         var responese = await Concert.create({
+            hallName,
             conName,
             artistName,
             conDate,

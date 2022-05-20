@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>KBM-ticket</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="/public/style.css" />
+
+</head>
+
+<body>
+
+    <%- include('./partials/navbar'); %>
+
+
+        <!-- Page content -->
+        <div class="w3-content" style="max-width:2000px;margin-top:46px" id="home">
+            <!-- Automatic Slideshow Images -->
+            <div class="w3-display-container w3-center">
+                <% if(slide.length){ for(var i=0; i< slide.length; i++){ %>
+                    <img class="mySlides" src="<%= slide[i].slideImage %>" style="width:100%">
+                    <% } }else{ %>
+                        <% } %>
+                            <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+                            <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+            </div>
+
+            <%if (!locals.session.username) { %>
+                <!-- The Tour Section -->
+                <div class="w3-black" id="tour">
+                    <div class="w3-container w3-content w3-padding-64" style="max-width:800px">
+                        <h2 class="w3-wide w3-center">Buy Ticket</h2>
+                        <div class="w3-row-padding" style="margin:0 -16px">
+                            <div class="w3-center w3-margin-bottom mt-4 ">
+                                <h3 class="mb-4"><b>Please log in first.</b></h3>
+                                <button class=" w-25 btn btn-lg btn-primary mt-4"
+                                    onclick="document.location='/login'">Login</button>
+                            </div>
+                        </div>
+                    </div>
+                    <% }else{ %>
+                        <!-- The Tour Section -->
+                        <div class="w3-black" id="tour">
+                            <div class="w3-container w3-content w3-padding-64">
+                                <h2 class="w3-wide w3-center">Buy Ticket</h2>
+                                <div class="w3-row-padding w3-padding-32" style="margin:0 -16px">
+                                    <% if(data.length){ %>
+                                        <div class="w3-col w3-margin-bottom" style="width: 20%;">
+                                            <img src="<%=data[conNumber].conPoster%>"" alt=" <%=data[i].conName%>"
+                                            style="width:100%">
+                                            <h3><b>
+                                                    <%= data[i].conName %>
+                                                </b></h3>
+                                            <p><b>Artist: </b>
+                                                <%= data[i].artistName %>
+                                            </p>
+                                            <p><b>Date: </b>
+                                                <%= moment(data[i].conDate).format("DD MMMM YYYY"); %>
+                                            </p>
+                                            <p><b>Time: </b>
+                                                <%= data[i].conTime.startTime%> - <%= data[i].conTime.endTime %>
+                                            </p>
+                                            <p>
+                                                <%= data[i].conDescription %>
+                                            </p>
+                                        </div>
+                                        <% }else{ %>
+                                            <tr>
+                                                <h5 class="w3-wide w3-center">No concert available at this time.</h5>
+                                            </tr>
+                                            <% } %>
+                                                <div class="w3-col w3-margin-bottom" style="width: 60%;">
+                                                    <img src="<%= hall.hallImage %>"" alt="
+                                                        <%=data[i].conName%>"
+                                                    style="width:100%" >
+                                                    
+                                                </div>
+                                                <div class="w3-col w3-margin-bottom w3-right" style="width: 20%;">
+                                                    <form id="insert-form" action="/api/insertConcert">
+                                                        <div class="block">
+                                                            <label class="h5 mb-4 fw-normal ">Select your zone<i style="color:red">* </i> : </label>
+                                                            <center>
+                                                                <select class='w3-button w3-white'name="optionType" id="selectOption">
+                                                                    <option value="" hidden selected> </option>
+                                                                    <% if(zone.length){ for(var i=0; i< zone.length; i++){ %>
+                                                                        <option value="<%= zone[i].zoneName %>" <%= zone[i].zoneNumberOfSeat!=0?'enabled':'disabled' %>  ><%= zone[i].zoneName %> (<%= zone[i].zoneNumberOfSeat %>)</option>
+                                                                        <% }} %>
+                                                                </select>                                                           
+                                                            </center>
+                                                        </div>
+                                                    </form>
+                                                    <button class="w-100 btn btn-lg btn-primary mt-4" onclick="goToBuyNext()">Next</button>
+                                                </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <%}%>
+
+                            <%- include('./partials/footer'); %>
+                                <script src="/public/index.js"></script>
+
+</body>
+
+</html>

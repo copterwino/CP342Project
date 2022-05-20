@@ -1,6 +1,6 @@
 var conNumber = '';
 try {
-    for (var j = 0; j < i; j++) {
+    for (var j = 0; j <= i; j++) {
         var formEditID = 'edit-form'+j;
         var formDeleteID = 'delete-form'+j;
         const edit_form = document.getElementById(formEditID);

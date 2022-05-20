@@ -4,27 +4,30 @@ try {
     for (var j = 0; j <= i; j++) {
         var formDeleteID = 'delete-form' + j;
         const delete_form = document.getElementById(formDeleteID);
-        delete_form.addEventListener('submit', deleteSlide);
+        delete_form.addEventListener('submit', deleteZone);
     }
 } catch (err) {
-    console.log('No slide available.');
+    console.log('No zone available.');
 }
-insert_form.addEventListener('submit', insertSlide);
-async function insertSlide(event) {
+insert_form.addEventListener('submit', insertZone);
+async function insertZone(event) {
     event.preventDefault();
-    const slideUploadDate = new Date();
-    const slideEXPDate = document.getElementById('slideEXPDate').value;
-    const slideImage = document.getElementById('slideImage').value;
+    const hallName = document.getElementById('hallName').value;
+    const zoneName = document.getElementById('zoneName').value;
+    const zoneNumberOfSeat = document.getElementById('numOfSeat').value;
+    const zonePrice = document.getElementById('zonePrice').value;
 
-    const result = await fetch('/api/insertSlide', {
+
+    const result = await fetch('/api/insertZone', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            slideUploadDate: slideUploadDate,
-            slideEXPDate: slideEXPDate,
-            slideImage:slideImage
+            hallName:hallName,
+            zoneName: zoneName,
+            zoneNumberOfSeat:zoneNumberOfSeat,
+            zonePrice:zonePrice
         })
     }).then((res) => res.json());
 
@@ -35,7 +38,7 @@ async function insertSlide(event) {
             text: 'Insert Successfully!',
             icon: 'success',
             confirmButtonText: 'OK'
-        }).then(() => window.location.href = "/slide");
+        }).then(() => window.location.href = "/zone");
     } else {
         Swal.fire({
             title: 'Oops!',
@@ -46,27 +49,27 @@ async function insertSlide(event) {
     }
 }
 //Delete function
-async function deleteSlide(event) {
+async function deleteZone(event) {
     event.preventDefault();
-    const slideIDValue = document.getElementById('slideID' + slideNumber).value;
-    const result = await fetch('/api/deleteSlide', {
+    const zoneIDValue = document.getElementById('zoneID' + zoneNumber).value;
+    const result = await fetch('/api/deleteZone', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            slideID: slideIDValue
+            zoneID: zoneIDValue
         })
     }).then((res) => res.json());
 
     if (result.status === 'ok') {
-        // everything went fine
+        // everythign went fine
         Swal.fire({
             title: 'Success!',
             text: 'Remove Successfully!',
             icon: 'success',
             confirmButtonText: 'OK'
-        }).then(() => window.location.href = "/slide");
+        }).then(() => window.location.href = "/zone");
     } else {
         Swal.fire({
             title: 'Oops!',

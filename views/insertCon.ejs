@@ -28,6 +28,15 @@
             <h2 class="h3 mb-4 fw-normal text-center" style="color:#00ffcb;">Insert a new concert</h2>
             <form id="insert-form" action="/api/insertConcert">
                 <div class="block">
+                    <label class="h5 mb-4 fw-normal ">Hall name<i style="color:red">* </i> : </label>
+                    <select class='w3-button w3-white w3-right' name="optionType" id="hallName">
+                        <option value="" hidden selected> </option>
+                        <% if(hall.length){ for(var i=0; i< hall.length; i++){ %>
+                        <option value="<%= hall[i].hallName %>"><%= hall[i].hallName %></option>
+                        <% }} %>
+                    </select>
+                </div>
+                <div class="block">
                     <label class="h5 mb-4 fw-normal ">Concert name<i style="color:red">* </i> : </label>
                     <input type="text" id="conName" placeholder="Concert name" required>
                 </div>

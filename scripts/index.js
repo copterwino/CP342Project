@@ -50,3 +50,7 @@ function showDivs(n) {
   }
   x[slideIndex-1].style.display = "block";  
 }
+
+function goToBuyPage(conNumber,hallName){
+    window.location.href = "/buyTicket?conNumber="+conNumber+"&hallName="+hallName; 
+}

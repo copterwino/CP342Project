@@ -18,15 +18,15 @@
 
 
         <!-- Page content -->
-        <div class="w3-content" style="max-width:2000px;margin-top:46px">
+        <div class="w3-content" style="max-width:2000px;margin-top:46px" id="home">
             <!-- Automatic Slideshow Images -->
             <div class="w3-display-container w3-center">
                 <% if(slide.length){ for(var i=0; i< slide.length; i++){ %>
                     <img class="mySlides" src="<%= slide[i].slideImage %>" style="width:100%">
-                <% } }else{ %>
-                    <% } %>
-                <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
-                <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+                    <% } }else{ %>
+                        <% } %>
+                    <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+                    <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
             </div>
 
 
@@ -39,7 +39,7 @@
                     </div>
                     <div class="w3-row-padding w3-padding-32" style="margin:0 -16px">
                         <% } %>
-                            <if <div class="w3-third w3-margin-bottom">
+                            <div class="w3-third w3-margin-bottom">
                                 <img src=<%=data[i].conPoster%> alt=data[i].conName style="width:100%"
                                 class="w3-hover-opacity">
                                 <div class="w3-container w3-white">
@@ -56,46 +56,25 @@
                                         <%= data[i].conTime.startTime%> - <%= data[i].conTime.endTime %>
                                     </p>
                                     <p>
-                                        <%= data[i].conName %>
+                                        <%= data[i].conDescription %>
                                     </p>
-                                    <button class="w3-button w3-black w3-margin-bottom"
-                                        onclick="document.getElementById('ticketModal').style.display='block'">Buy
-                                        Tickets</button>
+                                    <center>
+                                        <button class="w3-button w3-green w3-margin-bottom w3-margin-top"
+                                            onclick="goToBuyPage(<%= i %>,'<%= data[i].hallName%>')">Buy now!</button>
+                                    </center>
+
                                 </div>
-                    </div>
-                    <% } }else{ %>
-                        <tr>
-                            <h5 class="w3-wide w3-center">No concert available at this time.</h5>
-                        </tr>
-                        <% } %>
-                </div>
-            </div>
-
-            <!-- Ticket Modal -->
-            <div id="ticketModal" class="w3-modal">
-                <div class="w3-modal-content w3-animate-top w3-card-4">
-                    <header class="w3-container w3-teal w3-center w3-padding-32">
-                        <span onclick="document.getElementById('ticketModal').style.display='none'"
-                            class="w3-button w3-teal w3-xlarge w3-display-topright">×</span>
-                        <h2 class="w3-wide"></i>Tickets</h2>
-                    </header>
-                    <div class="w3-container">
-                        <p><label> Tickets, $15 per person</label></p>
-                        <input class="w3-input w3-border" type="text" placeholder="How many?">
-                        <p><label><i class="fa fa-user"></i> Send To</label></p>
-                        <input class="w3-input w3-border" type="text" placeholder="Enter email">
-                        <button class="w3-button w3-block w3-teal w3-padding-16 w3-section w3-right">PAY <i
-                                class="fa fa-check"></i></button>
-                        <button class="w3-button w3-red w3-section"
-                            onclick="document.getElementById('ticketModal').style.display='none'">Close <i
-                                class="fa fa-remove"></i></button>
-                        <p class="w3-right">Need <a href="#" class="w3-text-blue">help?</a></p>
+                            </div>
+                            <% } }else{ %>
+                                <tr>
+                                    <h5 class="w3-wide w3-center">No concert available at this time.</h5>
+                                </tr>
+                                <% } %>
                     </div>
                 </div>
-            </div>
 
-            <%- include('./partials/footer'); %>
-                <script src="/public/index.js"></script>
+                <%- include('./partials/footer'); %>
+                    <script src="/public/index.js"></script>
 
 </body>
 

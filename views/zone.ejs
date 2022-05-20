@@ -19,49 +19,58 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="/public/style.css" rel="stylesheet">
     <link href="/public/concert.css" rel="stylesheet">
-    <title>Halls</title>
+    <title>Zones</title>
 </head>
 
 <body style="background-color:black;">
     <%- include('./partials/navbar'); %>
-        <h2 class="h3 mb-4 fw-normal text-center" style="color:#00ffcb;">Halls</h2>
+        <h2 class="h3 mb-4 fw-normal text-center" style="color:#00ffcb;">Zones</h2>
         <div class="w3-black" id="tour">
             <div class="w3-container w3-content" style="max-width:800px">
                 <div class="w3-row-padding w3-padding-32" style="margin:0 -16px">
-                    <% if(data.length){ for(var i=0; i< data.length; i++){ if(i==3){ %>
+                    <% if(zone.length){ for(var i=0; i< zone.length; i++){ if(i==3){ %>
                 </div>
                 <div class="w3-row-padding w3-padding-32" style="margin:0 -16px">
                     <% } %>
                         <div class="w3-third w3-margin-bottom">
-                            <div class="imageContainer">
-                                <img src="<%=data[i].hallImage %>" alt="<%= data[i].hallName %>" style="width:100%">
-                            </div>
-
                             <div class="w3-container w3-white w3-center">
-                                <h3><b>Hall name : </b> <%= data[i].hallName %></h3>
+                                <header class="w3-container w3-teal w3-center w3-padding-32">
+                                    <h3><b>
+                                            <%= zone[i].zoneHallName %> (<%= zone[i].zoneName %>) : <%=
+                                                        zone[i].zoneNumberOfSeat %>
+                                        </b></h3>
+                                </header>
+                                <h3>Hall name : <%= zone[i].hallName %>
+                                </h3>
+                                <h3>Zone name : <%= zone[i].zoneName %>
+                                </h3>
+                                <h3>Zone price : <%= zone[i].zonePrice %>
+                                </h3>
+                                <h3>Number of Seats : <%= zone[i].zoneNumberOfSeat %>
+                                </h3>
                                 <button class="w3-button w3-red w3-margin-bottom mt-2"
                                     onclick="document.getElementById('delete<%= i %>').style.display='block'">Remove</button>
                             </div>
                         </div>
                         <% } }else{ %>
                             <tr>
-                                <h5 class="w3-wide w3-center">No hall available at this time.</h5>
+                                <h5 class="w3-wide w3-center">No zone available at this time.</h5>
                             </tr>
                             <% } %>
                 </div>
             </div>
-            <% if(data.length){ for(var i=0; i< data.length; i++){ %>
+            <% if(zone.length){ for(var i=0; i< zone.length; i++){ %>
                 <!-- Delete Modal -->
                 <div id="delete<%= i %>" class="w3-modal">
                     <span>
                         <div class="w3-modal-content w3-card-4">
                             <header class="w3-container w3-white w3-center w3-padding-32">
-                                <h3 class="w3-wide"></i>Are you sure you want to remove '<%= data[i].hallName %>'</h3>
+                                <h3 class="w3-wide"></i>Are you sure you want to remove '<%= zone[i].zoneName %>'</h3>
                                 <form id="delete-form<%= i %>">
-                                    <input type="text" id="hallID<%= i %>" style="display:none"
-                                        value='<%= data[i]._id %>' required>
+                                    <input type="text" id="zoneID<%= i %>" style="display:none"
+                                        value='<%= zone[i]._id %>' required>
                                     <button class="w3-button w3-green w3-section w3-left w3-round-xxlarge" type="submit"
-                                        onclick="hallNumber='<%= i %>';">Yes</button>
+                                        onclick="zoneNumber='<%= i %>';">Yes</button>
                                 </form>
                                 <button class="w3-button w3-red w3-section w3-right w3-round-xlarge no"
                                     onclick="document.getElementById('delete<%= i %>').style.display='none'">No</button>
@@ -72,28 +81,40 @@
         </div>
         <% } } %>
             <main class="form">
-                <h2 class="h3 mb-4 fw-normal text-center" style="color:#00ffcb;">Insert a new hall</h2>
+                <h2 class="h3 mb-4 fw-normal text-center" style="color:#00ffcb;">Insert a new zone</h2>
                 <form id="insert-form">
                     <div class="block">
-                        <label class="h5 mb-4 fw-normal ">Hall name<i style="color:red">* </i> : </label>
-                        <input type="text" id="hallName" placeholder="Hall name" required>
+                        <label class="h5 mb-4 fw-normal ">Zone hall name<i style="color:red">* </i> : </label>
+                        <select class='w3-button w3-white w3-right' name="optionType" id="hallName" required>
+                            <option value="" hidden selected> </option>
+                            <% if(hall.length){ for(var i=0; i< hall.length; i++){ %>
+                                <option value="<%= hall[i].hallName %>">
+                                    <%= hall[i].hallName %>
+                                </option>
+                                <% }} %>
+                        </select>
                     </div>
                     <div class="block">
-                        <label class="h5 mt-4 mb-4 fw-normal">Hall diagram image link (.png or .jpg)<i
-                                style="color:red">*</i>
-                            : </label>
-                        <input type="text" id="hallImage" name="file" style="width:100%"
-                            placeholder="Hall diagram image link" required>
+                        <label class="h5 mb-4 fw-normal ">Zone name<i style="color:red">* </i> : </label>
+                        <input type="text" id="zoneName" placeholder="zone name" required>
+                    </div>
+                    <div class="block">
+                        <label class="h5 mb-4 fw-normal ">Zone price<i style="color:red">* </i> : </label>
+                        <input type="number" id="zonePrice" placeholder="number of seats" required>
+                    </div>
+                    <div class="block">
+                        <label class="h5 mb-4 fw-normal ">Number of seats<i style="color:red">* </i> : </label>
+                        <input type="number" id="numOfSeat" placeholder="number of seats" required>
                     </div>
                     <center>
-                        <button class="w-100 btn btn-lg btn-primary mt-4 w3-center" type="submit">Insert</button>
+                        <button class="w-100 btn btn-lg btn-primary mt-4 mb-5 w3-center" type="submit">Insert</button>
                     </center>
                 </form>
             </main>
             <script>
                 i = <%= i %>;
             </script>
-            <script src="/public/insertHall.js"></script>
+            <script src="/public/insertZone.js"></script>
 </body>
 
 </html>

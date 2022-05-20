@@ -21,13 +21,18 @@
 
 <body class="text-center" style="background-color:black;">
     <%- include('./partials/navbar'); %>
-    <h1 class="h3 mb-3 fw-normal" style="color:white;"><b>KBM Ticket</b> - Management</h1>
+    <h1 class="h3 mb-3 fw-normal" style="color:red;"><b style="color:yellow">KBM Ticket</b><b style="color:white"> -</b> Management</h1>
+    <%if (!locals.session.username) { %>
+        <h1 class="h3 mt-5 mb-5 fw-normal" style="color:white;">Please log in as "admin" first.</h1>
+    <% }else{ %>
     <div class="manage">
         <button class="w-100 btn btn-lg btn-primary mt-4" onclick="document.location='/slide'">Slides</button>
         <button class="w-100 btn btn-lg btn-primary mt-4" onclick="document.location='/concert'">Concerts</button>
         <button class="w-100 btn btn-lg btn-primary mt-4" onclick="document.location='/order'">Orders</button>
         <button class="w-100 btn btn-lg btn-primary mt-4" onclick="document.location='/hall'">Halls</button>
+        <button class="w-100 btn btn-lg btn-primary mt-4" onclick="document.location='/zone'">Zones</button>
     </div>
+    <% } %>
 </body>
 <script src="/public/login.js"></script>
 

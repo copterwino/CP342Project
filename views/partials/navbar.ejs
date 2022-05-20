@@ -21,11 +21,11 @@
 <div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
     <a href="/#tour" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Concerts</a>
     <%if (locals.session.username=='admin') { %>
-        <a href="/manage" class="w3-bar-item w3-button w3-padding-large w3-hide-small" style="color:red">Management</a>
+        <a href="/manage" class="w3-bar-item w3-button w3-padding-large" style="color:red">Management</a>
     <% } %>
     <%if (!locals.session.username) { %>
-        <a href="/login" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-right">Login</a>
+        <a href="/login" class="w3-bar-item w3-button w3-padding-large">Login</a>
     <% }else{ %>
-        <a href="/logout" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-right">Logout</a>
+        <a href="/logout" class="w3-bar-item w3-button w3-padding-large">Logout</a>
     <%}%>
 </div>
