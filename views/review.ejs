@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>KBM-ticket</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css" />
+
+</head>
+
+<body>
+
+    <%- include('./partials/navbar'); %>
+
+
+        <!-- Page content -->
+        <div class="w3-content" style="max-width:2000px;margin-top:46px" id="home">
+            <!-- Automatic Slideshow Images -->
+            <div class="w3-display-container w3-center">
+                <% if(slide.length){ for(var i=0; i< slide.length; i++){ %>
+                    <img class="mySlides" src="<%= slide[i].slideImage %>" style="width:100%">
+                    <% } }else{ %>
+                        <% } %>
+                            <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+                            <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+            </div>
+
+
+            <!-- The Tour Section -->
+            <div class="w3-black" id="tour">
+                <div class="w3-container w3-content w3-padding-64" style="max-width:800px">
+                    <h1 class="w3-wide w3-center w3-text-yellow">Thank you,"<%= order.username %>"</h1>
+                    <h2 class="w3-wide w3-center">Your order ID is</h2>
+                    <h2 class="w3-wide w3-center">"<b class=" w3-text-red"><%= order._id %></b>"</h2>
+                    <h4 class="w3-wide w3-center">Concert : <b class="w3-text-green"><%= order.conName %></b></h4>
+                    <h4 class="w3-wide w3-center">Hall : <b class="w3-text-green"><%= concert.hallName %></b> </h4>
+                    <h4 class="w3-wide w3-center">Zone : <b class="w3-text-green"><%= order.zoneName %></b> </h4>
+                    <h4 class="w3-wide w3-center">Amount : <b class="w3-text-green"><%= order.amount%></b> </h4>
+                    <h4 class="w3-wide w3-center">Total : <b class="w3-text-green"><%= order.total %></b> </h4>
+                    <h4 class="w3-wide w3-center">Ordered date: <b class="w3-text-green"><%= moment(order.uploadDate).format("DD MMMM YYYY"); %></b> </h4>
+                    <div class="w3-row-padding w3-padding-32" style="margin:0 -16px">
+                    </div>
+
+                </div>
+
+                <%- include('./partials/footer'); %>
+                    <script src="/public/index.js"></script>
+
+</body>
+
+</html>

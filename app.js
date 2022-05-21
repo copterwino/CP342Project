@@ -9,10 +9,12 @@ var jwt = require('jsonwebtoken');
 const moment = require('moment');
 
 var User = require('./models/user');
-var Slide = require('./models/slide')
-var Hall = require('./models/hall')
-var Concert = require('./models/concert')
-var Zone = require('./models/zone')
+var Slide = require('./models/slide');
+var Hall = require('./models/hall');
+var Concert = require('./models/concert');
+var Zone = require('./models/zone');
+var Order = require('./models/order');
+var Payment = require('./models/payment');
 var JWT_SECRET = '$!fgasf(^*&(gl@$fdaf*&%UTRgfadgsagaewae@$@(^*&(^fsa!#$!%@$&^';
 
 
@@ -46,10 +48,10 @@ mongoose.connect(mongoURI), {
 app.get('/', function (req, res) {
     let concert = Concert.find({ conDate: { $gte: new Date() } });
     let slide = Slide.find({ slideEXPDate: { $gte: new Date() } });
-    Promise.all([concert,slide]).then(result => {
+    Promise.all([concert, slide]).then(result => {
         res.render("index", {
             data: result[0],
-            slide:result[1],
+            slide: result[1],
             moment: moment
         });
     }).catch(err => {
@@ -161,20 +163,89 @@ app.post("/api/register", async (req, res) => {
 });
 //Buying Page
 app.get('/buyTicket', function (req, res) {
+    const username = req.session.username;
     const conNumber = req.query.conNumber;
     const hallName = req.query.hallName;
-    let hall = Hall.findOne({hallName:hallName});
+    const conName = req.query.conName;
+    let hall = Hall.findOne({ hallName: hallName });
     let concert = Concert.find({ conDate: { $gte: new Date() } });
     let slide = Slide.find({ slideEXPDate: { $gte: new Date() } });
     let zone = Zone.find();
-    Promise.all([concert,slide,hall,zone]).then(result => {
+    let order = Order.aggregate([
+        { "$match" : { conName : conName } },
+        {
+            "$group": {
+                _id: "$zoneName", count: {
+                    "$sum": "$amount"
+                }
+            }
+        }, {
+            "$sort": { _id: 1 }
+        }
+    ]);
+
+    Promise.all([concert, slide, hall, zone, order]).then(result => {
         res.render("buyTicket", {
-            hall:hall,
-            conNumber:conNumber,
+            username: username,
+            hall: hall,
+            conNumber: conNumber,
             data: result[0],
-            slide:result[1],
-            hall:result[2],
-            zone:result[3],
+            slide: result[1],
+            hall: result[2],
+            zone: result[3],
+            order: result[4],
+            moment: moment
+        });
+    }).catch(err => {
+        //handle your error here
+        console.log('Failed to retrieve the Concert List: ' + err);
+    })
+});
+//Insert order
+app.post('/api/insertOrder', async (req, res) => {
+    var {
+        username,
+        conName,
+        zoneName,
+        amount,
+        total,
+        uploadDate,
+        status
+    } = req.body;
+    try {
+        var responese = await Order.create({
+            username,
+            conName,
+            zoneName,
+            amount,
+            total,
+            uploadDate,
+            status
+        })
+        console.log('Placed order successfully: ', responese);
+    } catch (error) {
+        console.log(error)
+        res.json({ status: 'error', error: ';)' })
+        throw error
+    }
+    res.json({
+        status: 'ok',
+        orderID: responese._id
+    });
+});
+//Review Page
+app.get('/review', function (req, res) {
+    const orderID = req.query.orderID;
+    const conName = req.query.conName;
+    let concert = Concert.findOne({ conName: conName });
+    let order = Order.findOne({ _id: orderID });
+
+    let slide = Slide.find({ slideEXPDate: { $gte: new Date() } });
+    Promise.all([concert, order, slide]).then(result => {
+        res.render("review", {
+            concert: result[0],
+            order: result[1],
+            slide: result[2],
             moment: moment
         });
     }).catch(err => {
@@ -294,10 +365,10 @@ app.post('/api/deleteHall', async (req, res) => {
 app.get('/zone', function (req, res) {
     let hall = Hall.find();
     let zone = Zone.find();
-    Promise.all([hall,zone]).then(result => {
+    Promise.all([hall, zone]).then(result => {
         res.render("zone", {
-            hall:result[0],
-            zone:result[1],
+            hall: result[0],
+            zone: result[1],
             moment: moment
         });
     }).catch(err => {
@@ -312,7 +383,7 @@ app.post('/api/insertZone', async (req, res) => {
         zoneName,
         zonePrice,
         zoneNumberOfSeat
-        
+
     } = req.body;
     if (!zoneName || typeof zoneName !== 'string') {
         return res.json({ status: 'error', error: 'Invalid hall name' })
@@ -372,7 +443,7 @@ app.get('/insertCon', function (req, res) {
     let hall = Hall.find();
     Promise.all([hall]).then(result => {
         res.render("insertCon", {
-            hall:result[0],
+            hall: result[0],
             moment: moment
         });
     }).catch(err => {
@@ -470,7 +541,105 @@ app.post('/api/deleteConcert', async (req, res) => {
 
 //Order page
 app.get('/order', function (req, res) {
-    res.render('order');
+    let order = Order.find().sort({ uploadDate: -1 });
+    Promise.all([order]).then(result => {
+        res.render("order", {
+            order: result[0],
+            moment: moment
+        });
+    }).catch(err => {
+        //handle your error here
+        console.log('Failed to retrieve the Concert List: ' + err);
+    })
+});
+//Order edit
+app.post('/api/editOrder', async (req, res) => {
+    var {
+        orderID,
+        status
+    } = req.body;
+    console.log(orderID);
+    console.log(status);
+    try {
+        var responese = await Order.updateOne({
+                _id: orderID
+            }, 
+            {
+            "$set": {
+                "status": status
+            }
+        })
+        console.log('Order edited successfully: ', responese);
+    } catch (error) {
+        console.log(error)
+        res.json({ status: 'error', error: ';)' })
+        throw error
+    }
+    res.json({ status: 'ok' });
+});
+//User order Page
+app.get('/userOrder', function (req, res) {
+    const username = req.session.username;
+    let order = Order.find({ username: username }).sort({ uploadDate: -1 });
+    Promise.all([order]).then(result => {
+        res.render("userOrder", {
+            order: result[0],
+            moment: moment
+        });
+    }).catch(err => {
+        //handle your error here
+        console.log('Failed to retrieve the Concert List: ' + err);
+    })
+});
+//Payment page
+app.get('/payment', function (req, res) {
+    const username = req.session.username;
+    let slide = Slide.find({ slideEXPDate: { $gte: new Date() } });
+    let order = Order.find({username:username,status:"waiting"});
+
+    Promise.all([slide,order]).then(result => {
+        res.render("payment", {
+            username:username,
+            slide: result[0],
+            order:result[1],
+            moment: moment
+        });
+    }).catch(err => {
+        //handle your error here
+        console.log('Failed to retrieve the Concert List: ' + err);
+    })
+});
+//Payment insert
+app.post('/api/insertPayment', async (req, res) => {
+    var {
+        orderID,
+        username,
+        refID,
+        payDate,
+        payTime,
+        uploadDate,
+        status
+    } = req.body;
+    if (!refID || typeof refID !== 'string') {
+        return res.json({ status: 'error', error: 'Invalid concert name' })
+    }
+    try {
+        var responese = await Payment.create({
+            orderID,
+            username,
+            refID,
+            payDate,
+            payTime,
+            uploadDate,
+            status
+        })
+        console.log('Inserted successfully: ', responese);
+    } catch (error) {
+        console.log(error)
+        res.json({ status: 'error', error: ';)' })
+        throw error
+    }
+    res.json({ status: 'ok' });
 });
 
 var server = app.listen(8080, function () {

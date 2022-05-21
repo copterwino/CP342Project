@@ -6,6 +6,7 @@
                 class="fa fa-bars"></i></a>
         <a href="/" class="w3-bar-item w3-button w3-padding-large">Home</a>
         <a href="/#tour" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Concert</a>
+        <a href="/payment" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Payment</a>
         <%if (locals.session.username=='admin') { %>
             <a href="/manage" class="w3-bar-item w3-button w3-padding-large w3-hide-small" style="color:red">Management</a>
         <% } %>
@@ -13,6 +14,7 @@
             <a href="/login" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-right">Login</a>
         <% }else{ %>
             <a href="/logout" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-right">Logout</a>
+            <a href="/userOrder" class="w3-text-blue w3-bar-item w3-button w3-padding-large w3-hide-small w3-right">Your Order List</a> 
         <%}%>
     </div>
 </div>
@@ -26,6 +28,7 @@
     <%if (!locals.session.username) { %>
         <a href="/login" class="w3-bar-item w3-button w3-padding-large">Login</a>
     <% }else{ %>
+        <a href="/userOrder" class="w3-text-blue w3-bar-item w3-button w3-padding-large">Your Order List</a>
         <a href="/logout" class="w3-bar-item w3-button w3-padding-large">Logout</a>
     <%}%>
 </div>

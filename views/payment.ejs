@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>KBM-ticket</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mgalante/jquery.redirect@master/jquery.redirect.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/public/style.css" />
+    <link rel="stylesheet" href="/public/concert.css" />
+    <script src="/public/paymentPrice.js"></script>
+</head>
+
+<body style="padding-top:0rem">
+
+    <%- include('./partials/navbar'); %>
+
+
+        <!-- Page content -->
+        <div class="w3-content" style="max-width:2000px;margin-top:46px" id="home">
+            <!-- Automatic Slideshow Images -->
+            <div class="w3-display-container w3-center">
+                <% if(slide.length){ for(var i=0; i< slide.length; i++){ %>
+                    <img class="mySlides" src="<%= slide[i].slideImage %>" style="width:100%">
+                    <% } }else{ %>
+                        <% } %>
+                            <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+                            <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+            </div>
+
+            <%if (!locals.session.username) { %>
+                <!-- The Tour Section -->
+                <div class="w3-black" id="tour">
+                    <div class="w3-container w3-content w3-padding-64" style="max-width:800px">
+                        <h2 class="w3-wide w3-center">Payment</h2>
+                        <div class="w3-row-padding" style="margin:0 -16px">
+                            <div class="w3-center w3-margin-bottom mt-4 ">
+                                <h3 class="mb-4"><b>Please log in first.</b></h3>
+                                <button class=" w-25 btn btn-lg btn-primary mt-4"
+                                    onclick="document.location='/login'">Login</button>
+                            </div>
+                        </div>
+                    </div>
+                    <% }else{ %>
+                        <!-- The Tour Section -->
+                        <div class="w3-black" id="tour">
+                            <div class="w3-container w3-content w3-padding-64" style="max-width:800px">
+                                <h2 class="w3-wide w3-center mb-5">Payment</h2>
+                                <form id="insert-form" action="/api/insertConcert">
+                                    <input type="text" id="username" style="display:none" value='<%= username %>'
+                                    required>
+                                    <div class="block">
+                                        <label class="h4 mb-4 fw-normal ">เลือกออเดอร์ที่ต้องการชำระ <i
+                                                style="color:red">*</i> : </label>
+                                        <select class='w3-button w3-white w3-right w3-large' name="optionType"
+                                            id="orderID" required onchange="ticketPrice()">
+                                            <option value="" hidden selected> </option>
+                                            <% if(order.length){ for(var i=0; i< order.length; i++){ %>
+                                                <option
+                                                    value='{"orderID":"<%= order[i]._id %>","conName":"<%= order[i].conName %>","zoneName":"<%= order[i].zoneName %>","amount":<%= order[i].amount %>,"total":<%= order[i].total %> }'>
+                                                    <%= order[i]._id %>
+                                                </option>
+                                                <% }} %>
+                                        </select>
+                                    </div>
+                                    <div class="block">
+                                        <label class="h4 mb-4 fw-normal ">Concert : </label>
+                                        <h4 id="conName" class="w3-right"></h4>
+                                    </div>
+                                    <div class="block">
+                                        <label class="h4 mb-4 fw-normal ">Zone : </label>
+                                        <h4 id="zoneName" class="w3-right"></h4>
+                                    </div>
+                                    <div class="block">
+                                        <label class="h4 mb-4 fw-normal ">Amount : </label>
+                                        <h4 id="amount" class="w3-right"></h4>
+                                    </div>
+
+                                    <div class="block">
+                                        <label class="h4 mb-4 fw-normal ">Total : </label>
+                                        <h4 id="price" class="w3-right"></h4>
+                                    </div>
+                                    <div class="block">
+                                        <label class="h4 mb-4 fw-normal ">รหัสอ้างอิง <i
+                                            style="color:red;margin-right:0.5rem">*</i>: </label>
+                                        <input class="w3-half w3-right" type="text" id="refID" placeholder="refID"
+                                        required>
+                                    </div>
+                                    <div class="block">
+                                        <label class="h4 mb-4 fw-normal ">วันที่โอน <i
+                                            style="color:red;margin-right:0.5rem">*</i>: </label>
+                                        <input class=" w3-right" type="date" id="payDate" placeholder="refID"
+                                        required>
+                                    </div>
+                                    <div class="block">
+                                        <label class="h4 mb-4 fw-normal ">เวลาที่โอน<i
+                                            style="color:red;margin-right:0.5rem">*</i> : </label>
+                                        <input class=" w3-right" type="time" id="payTime" placeholder="refID"
+                                        required>
+                                    </div>
+                                    <center>
+                                        <button class="w-100 btn btn-lg btn-primary mt-4 w3-center" type="submit">ชำระเงิน</button>
+                                    </center>
+                                </form>
+                            </div>
+                        </div>
+                </div>
+                <%}%>
+                    <%- include('./partials/footer'); %>
+                        <script src="/public/index.js"></script>
+                        <script src="/public/payment.js"></script>
+
+
+
+
+</body>
+
+</html>
