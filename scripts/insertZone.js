@@ -1,7 +1,7 @@
 const insert_form = document.getElementById('insert-form');
-var conNumber = '';
+var zoneNumber = '';
 try {
-    for (var j = 0; j <= i; j++) {
+    for (var j = 0; j < i; j++) {
         var formDeleteID = 'delete-form' + j;
         const delete_form = document.getElementById(formDeleteID);
         delete_form.addEventListener('submit', deleteZone);

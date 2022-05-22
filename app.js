@@ -172,7 +172,7 @@ app.get('/buyTicket', function (req, res) {
     let slide = Slide.find({ slideEXPDate: { $gte: new Date() } });
     let zone = Zone.find();
     let order = Order.aggregate([
-        { "$match" : { conName : "Giga Chad Tour" } },
+        { "$match" : { conName : conName } },
         {
             "$group": {
                 _id: "$zoneName", count: {
@@ -232,6 +232,25 @@ app.post('/api/insertOrder', async (req, res) => {
         status: 'ok',
         orderID: responese._id
     });
+});
+//Delte order
+app.post('/api/deleteOrder', async (req, res) => {
+    var {
+        orderIDValue
+    } = req.body;
+    try {
+        var responese = await Order.remove({
+            _id: { $eq: orderIDValue }
+        })
+        console.log('Remove successfully: ', responese);
+    } catch (error) {
+        // duplicate key
+        if (error.keyPattern.zoneName == 1 && error.code == 11000) {
+            return res.json({ status: 'error', error: 'This zone name is already in use.' })
+        }
+        throw error
+    }
+    res.json({ status: 'ok' });
 });
 //Review Page
 app.get('/review', function (req, res) {

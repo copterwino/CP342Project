@@ -7,7 +7,16 @@ function ticketPrice() {
     var zoneObject = JSON.parse(zone);
     amount = document.getElementById("amount").value;
     zoneName = zoneObject.zoneName;
+    availableSeat = zoneObject.availableSeat;
     total=zoneObject.zonePrice*amount;
+    if(availableSeat-amount<0){
+        Swal.fire({
+            title: 'Oops!',
+            text: 'Seat is not enough!',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    }
     if (zonePrice && amount) {
         document.getElementById("cal").innerHTML =  zoneObject.zonePrice+" x "+amount+" = ";
         document.getElementById("price").innerHTML =  total;

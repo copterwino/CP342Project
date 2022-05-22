@@ -21,7 +21,7 @@
     <link href="/public/concert.css" rel="stylesheet">
     <link href="/public/userOrder.css" rel="stylesheet">
     <script src="/public/orderSearchBox.js"></script>
-    <title>Concerts</title>
+    <title>Orders</title>
 </head>
 
 <body style="background-color:black;">
@@ -43,12 +43,13 @@
                     <center>
                         <div class="block">
                             <label class="h5 mb-4 fw-normal ">Search</i> : </label>
-                            <input style='float:none' class="w3-margin-right w3-threequarter w3-center mt-5" type="text" id="search"
-                                onkeyup="searchBox()" placeholder="Search here..." >
+                            <input style='float:none' class="w3-margin-right w3-threequarter w3-center mt-5" type="text"
+                                id="search" onkeyup="searchBox()" placeholder="Search here...">
                         </div>
                     </center>
                     <div class="w3-padding-64">
-                        <table class="w3-large w3-table w3-text-black w3-text-center w3-border w3-white w3-striped" id="myTable">
+                        <table class="w3-large w3-table w3-text-black w3-text-center w3-border w3-white w3-striped"
+                            id="myTable">
                             <tr class="w3-green">
                                 <td>Order ID</td>
                                 <td>Username</td>
@@ -59,6 +60,7 @@
                                 <td>Ordered Date</td>
                                 <td>Status</td>
                                 <td>Edit</td>
+                                <td>Delete</td>
                             </tr>
                             <% if(order.length){ for(var i=0;i < order.length;i++){ %>
                                 <tr>
@@ -89,6 +91,10 @@
                                     <td>
                                         <button class="w3-button w3-green w3-margin-bottom "
                                             onclick="document.getElementById('edit<%= i %>').style.display='block'">Edit</button>
+                                    </td>
+                                    <td>
+                                        <button class="w3-button w3-red w3-margin-bottom "
+                                        onclick="document.getElementById('delete<%= i %>').style.display='block'">Remove</button>
                                     </td>
                                 </tr>
                                 <%}}else{ %>
@@ -125,10 +131,29 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- Delete Modal -->
+                        <div id="delete<%= i %>" class="w3-modal">
+                            <span>
+                                <div class="w3-modal-content w3-card-4">
+                                    <header class="w3-container w3-white w3-center w3-padding-32">
+                                        <h3 class="w3-wide"></i>Are you sure you want to remove this order?'</h3>
+                                        <form id="delete-form<%= i %>">
+                                            <input type="text" id="orderID<%= i %>" style="display:none"
+                                                value='<%= order[i]._id %>' required>
+                                            <button class="w3-button w3-green w3-section w3-left w3-round-xxlarge"
+                                                type="submit" onclick="conNumber='<%= i %>';">Yes</button>
+                                        </form>
+                                        <button class="w3-button w3-red w3-section w3-right w3-round-xlarge no"
+                                            onclick="document.getElementById('delete<%= i %>').style.display='none'">No</button>
+                                </div>
+                                </header>
+                        </div>
+                        </span>
+            </div>
             </div>
             <% } } %>
                 <script>
-                    i = <%= i %>;
+                    i = <%= order.length %>;
                 </script>
                 <script src="/public/order.js"></script>
 </body>
