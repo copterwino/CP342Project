@@ -14,6 +14,6 @@ function ticketPrice() {
         document.getElementById("conName").innerHTML = conName;
         document.getElementById("zoneName").innerHTML = zoneName;
         document.getElementById("amount").innerHTML = amount;
-        document.getElementById("price").innerHTML = total;
+        document.getElementById("price").innerHTML = total+" บาท";
     } 
 }

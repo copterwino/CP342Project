@@ -20,14 +20,15 @@
     <link href="/public/style.css" rel="stylesheet">
     <link href="/public/concert.css" rel="stylesheet">
     <link href="/public/userOrder.css" rel="stylesheet">
+    <script src="/public/orderSearchBox.js"></script>
     <title>Concerts</title>
 </head>
 
 <body style="background-color:black;">
     <%- include('./partials/navbar'); %>
-        <h1 class="h2 mb-3 fw-normal text-center" style="color:white;"><b>KBM</b> - Your order history</h1>
         <%if (!locals.session.username) { %>
             <!-- The Tour Section -->
+            <h1 class="h2 mb-3 fw-normal text-center" style="color:white;"><b>KBM</b> - Your order history</h1>
             <div class="w3-black" id="tour">
                 <div class="w3-container w3-content w3-padding-64" style="max-width:800px">
                     <div class="w3-row-padding" style="margin:0 -16px">
@@ -39,38 +40,61 @@
                     </div>
                 </div>
                 <% }else{ %>
-        <div class="w3-padding-64">
-            <table class="w3-large w3-table w3-text-black w3-text-center w3-striped w3-border w3-pale-blue">
-                <tr class="w3-green">
-                    <td>Order ID</td>
-                    <td>Concert</td>
-                    <td>Zone name</td>
-                    <td>Amount</td>
-                    <td>Total</td>
-                    <td>Ordered Date</td>
-                    <td>Status</td>
-                </tr>
-                <% if(order.length){
-                    for(var i =0;i < order.length;i++){ %>            
-                <tr>
-                    <td><%= order[i]._id %></td>
-                    <td><%= order[i].conName %></td>
-                    <td><%= order[i].zoneName %></td>
-                    <td><%= order[i].amount %></td>
-                    <td><%= order[i].total %></td>
-                    <td><%= moment(order.uploadDate).format("DD/MM/YYYY"); %></td>
-                    <td><%= order[i].status %></td>
-                </tr>
-                <%}}else{ %>
-                    <h3>Can not find any order.</h3>
-                <% }} %>
-            </table>
-        </div>
+                    <div class="w3-padding-64">
+                        <center>
+                            <h1 class="h2  fw-normal text-center" style="color:white;"><b>KBM</b> - Your order
+                                history</h1>
+                            <div class="block">
+                                <label class="h5 mb-4 fw-normal ">Search</i> : </label>
+                                <input style='float:none' class="w3-margin-right w3-threequarter w3-center mt-3 mb-3"
+                                    type="text" id="search" onkeyup="searchBox()" placeholder="Search here...">
+                            </div>
+                        </center>
+                        <table class="w3-large w3-table w3-text-black w3-text-center w3-striped w3-border w3-white mt-4"
+                            id="myTable">
+                            <tr class="w3-green">
+                                <td>Order ID</td>
+                                <td>Concert</td>
+                                <td>Zone name</td>
+                                <td>Amount</td>
+                                <td>Total</td>
+                                <td>Ordered Date</td>
+                                <td>Status</td>
+                            </tr>
+                            <% if(order.length){ for(var i=0;i < order.length;i++){ %>
+                                <tr>
+                                    <td>
+                                        <%= order[i]._id %>
+                                    </td>
+                                    <td>
+                                        <%= order[i].conName %>
+                                    </td>
+                                    <td>
+                                        <%= order[i].zoneName %>
+                                    </td>
+                                    <td>
+                                        <%= order[i].amount %>
+                                    </td>
+                                    <td>
+                                        <%= order[i].total %>
+                                    </td>
+                                    <td>
+                                        <%= moment(order.uploadDate).format("DD/MM/YYYY"); %>
+                                    </td>
+                                    <td>
+                                        <%= order[i].status %>
+                                    </td>
+                                </tr>
+                                <%}}else{ %>
+                                    <h3>Can not find any order.</h3>
+                                    <% }} %>
+                        </table>
+                    </div>
 
-        <div class="w3-black" id="tour">
+                    <div class="w3-black" id="tour">
 
-        </div>
-        <script src="/public/concert.js"></script>
+                    </div>
+                    <script src="/public/concert.js"></script>
 </body>
 
 </html>

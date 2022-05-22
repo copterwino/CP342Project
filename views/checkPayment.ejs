@@ -52,39 +52,35 @@
                             <tr class="w3-green">
                                 <td>Order ID</td>
                                 <td>Username</td>
-                                <td>Concert</td>
-                                <td>Zone name</td>
-                                <td>Amount</td>
-                                <td>Total</td>
-                                <td>Ordered Date</td>
+                                <td>Reference ID</td>
+                                <td>Pay date</td>
+                                <td>Pay time</td>
+                                <td>Upload date</td>
                                 <td>Status</td>
                                 <td>Edit</td>
                             </tr>
-                            <% if(order.length){ for(var i=0;i < order.length;i++){ %>
+                            <% if(payment.length){ for(var i=0;i < payment.length;i++){ %>
                                 <tr>
                                     <td>
-                                        <%= order[i]._id %>
+                                        <%= payment[i].orderID %>
                                     </td>
                                     <td>
-                                        <%= order[i].username %>
+                                        <%= payment[i].username %>
                                     </td>
                                     <td>
-                                        <%= order[i].conName %>
+                                        <%= payment[i].refID %>
                                     </td>
                                     <td>
-                                        <%= order[i].zoneName %>
+                                        <%= moment(payment[i].payDate).format("DD/MM/YYYY"); %>
                                     </td>
                                     <td>
-                                        <%= order[i].amount %>
+                                        <%= payment[i].payTime %>
                                     </td>
                                     <td>
-                                        <%= order[i].total %>
+                                        <%= moment(payment[i].uploadDate).format("DD/MM/YYYY"); %>
                                     </td>
                                     <td>
-                                        <%= moment(order[i].uploadDate).format("DD/MM/YYYY"); %>
-                                    </td>
-                                    <td>
-                                        <%= order[i].status %>
+                                        <%= payment[i].status %>
                                     </td>
                                     <td>
                                         <button class="w3-button w3-green w3-margin-bottom "
@@ -92,11 +88,11 @@
                                     </td>
                                 </tr>
                                 <%}}else{ %>
-                                    <h3>Can not find any order.</h3>
+                                    <h3>Can not find any payment.</h3>
                                     <% }} %>
                         </table>
                     </div>
-                    <% if(order.length){ for(var i=0; i< order.length; i++){ %>
+                    <% if(payment.length){ for(var i=0; i< payment.length; i++){ %>
                         <!-- Edit Modal -->
                         <div id='edit<%= i %>' class="w3-modal">
                             <div class="w3-modal-content w3-card-4">
@@ -104,17 +100,17 @@
                                     class="w3-button w3-white w3-xlarge w3-display-topright">×</span>
                                 <div class="w3-container w3-white w3-center w3-padding-32" style="color:black">
                                     <h2 class="w3-wide mb-4"></i><b>Edit</b></h2>
-                                    <form id="edit-form<%= i %>" class="edit-form" action="/api/editOrder">
-                                        <input type="text" id="orderID<%= i %>" style="display:none"
-                                            value='<%= order[i]._id %>' required>
+                                    <form id="edit-form<%= i %>" class="edit-form" action="/api/editPayment">
+                                        <input type="text" id="paymentID<%= i %>" style="display:none"
+                                            value='<%= payment[i]._id %>' required>
                                         <div class="block">
                                             <label class="h5 mb-4 fw-normal ">Status<i style="color:red">* </i> :
                                             </label>
                                             <select class='w3-margin-left w3-button w3-large w3-border'
                                                 name="optionType" id="status<%= i %>" required>
                                                 <option value="waiting">waiting</option>
-                                                <option value="completed">completed</option>
-                                                <option value="incompleted">incompleted</option>
+                                                <option value="correct">correct</option>
+                                                <option value="incorrect">incorrect</option>
                                             </select>
                                         </div>
                                         <button class="w3-button w3-green w3-section w3-left w3-round-xxlarge"
@@ -130,7 +126,7 @@
                 <script>
                     i = <%= i %>;
                 </script>
-                <script src="/public/order.js"></script>
+                <script src="/public/checkPayment.js"></script>
 </body>
 
 </html>

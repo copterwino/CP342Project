@@ -172,7 +172,7 @@ app.get('/buyTicket', function (req, res) {
     let slide = Slide.find({ slideEXPDate: { $gte: new Date() } });
     let zone = Zone.find();
     let order = Order.aggregate([
-        { "$match" : { conName : conName } },
+        { "$match" : { conName : "Giga Chad Tour" } },
         {
             "$group": {
                 _id: "$zoneName", count: {
@@ -537,8 +537,6 @@ app.post('/api/deleteConcert', async (req, res) => {
     }
     res.json({ status: 'ok' });
 });
-
-
 //Order page
 app.get('/order', function (req, res) {
     let order = Order.find().sort({ uploadDate: -1 });
@@ -590,6 +588,42 @@ app.get('/userOrder', function (req, res) {
         //handle your error here
         console.log('Failed to retrieve the Concert List: ' + err);
     })
+});
+//Check payment page
+app.get('/checkPayment', function (req, res) {
+    let payment = Payment.find().sort({ uploadDate: -1 });
+    Promise.all([payment]).then(result => {
+        res.render("checkPayment", {
+            payment: result[0],
+            moment: moment
+        });
+    }).catch(err => {
+        //handle your error here
+        console.log('Failed to retrieve the Concert List: ' + err);
+    })
+});
+//Payment edit
+app.post('/api/editPayment', async (req, res) => {
+    var {
+        paymentID,
+        status
+    } = req.body;
+    try {
+        var responese = await Payment.updateOne({
+                _id: paymentID
+            }, 
+            {
+            "$set": {
+                "status": status
+            }
+        })
+        console.log('Order edited successfully: ', responese);
+    } catch (error) {
+        console.log(error)
+        res.json({ status: 'error', error: ';)' })
+        throw error
+    }
+    res.json({ status: 'ok' });
 });
 //Payment page
 app.get('/payment', function (req, res) {

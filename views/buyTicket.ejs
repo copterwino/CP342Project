@@ -104,9 +104,17 @@
                                                                     <option value="" hidden selected> </option>
                                                                     <% if(zone.length){ for(var i=0; i< zone.length;i++){ %>
                                                                         <option value='{"zoneName":"<%= zone[i].zoneName %>","zonePrice":<%= zone[i].zonePrice %>}'
+                                                                            <% if(order.length){ %>
                                                                             <%= zone[i].zoneNumberOfSeat-order[i].count!=0?'enabled':'disabled'%>>
+                                                                            <% }else{ %> 
+                                                                                <%= zone[i].zoneNumberOfSeat!=0?'enabled':'disabled'%>>
+                                                                                <% } %> 
                                                                             <%= zone[i].zoneName %> 
-                                                                            (<%= zone[i].zoneNumberOfSeat-order[i].count %>)                                                         
+                                                                            <% if(order.length){ %>
+                                                                            (<%= zone[i].zoneNumberOfSeat-order[i].count %>) 
+                                                                            <% }else{ %> 
+                                                                                (<%= zone[i].zoneNumberOfSeat %>)    
+                                                                            <% } %>                                                    
                                                                         </option>
                                                                         <% }} %>
                                                                 </select>
