@@ -24,13 +24,13 @@
 
 <body style="background-color:black;">
     <%- include('./partials/navbar'); %>
-        <h2 class="h3 mb-4 fw-normal text-center" style="color:#00ffcb;">Slides</h2>
+        <h2 class="h3 fw-normal text-center" style="color:#00ffcb;">Slides</h2>
         <div class="w3-black" id="tour">
             <div class="w3-container w3-content" style="max-width:800px">
-                <div class="w3-row-padding w3-padding-32" style="margin:0 -16px">
+                <div class="w3-row-padding" style="margin:0 -16px">
                     <% if(data.length){ for(var i=0; i< data.length; i++){ if(i%3==0){ %>
                 </div>
-                <div class="w3-row-padding w3-padding-32" style="margin:0 -16px">
+                <div class="w3-row-padding  w3-padding-32" style="margin:0 -16px">
                     <% } %>
                         <div class="w3-third w3-margin-bottom">
                             <div class="imageContainer">

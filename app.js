@@ -105,7 +105,7 @@ app.post("/api/register", async (req, res) => {
         username,
         password: plainTextPassword,
         password_re: plainTextPasswordre,
-        email: plainTextEmail,
+        email,
         address: plainTextAddress,
         phone: plainTextPhone
     } = req.body;
@@ -117,7 +117,7 @@ app.post("/api/register", async (req, res) => {
     if (!plainTextPassword || typeof plainTextPassword !== 'string') {
         return res.json({ status: 'error', error: 'Invalid password.' });
     }
-    if (plainTextPassword.length < 4) {
+    if (plainTextPassword.length < 5) {
         return res.json({
             status: 'error',
             error: 'Password must be at least 5 characters.'
@@ -137,7 +137,6 @@ app.post("/api/register", async (req, res) => {
     }
     //Hashing data
     var password = await bcrypt.hash(plainTextPassword, 10);
-    var email = await bcrypt.hash(plainTextEmail, 10);
     var address = await bcrypt.hash(plainTextAddress, 10);
     var phone = await bcrypt.hash(plainTextPhone, 10);
     try {
@@ -150,6 +149,9 @@ app.post("/api/register", async (req, res) => {
         })
         console.log('User created successfully: ', responese);
     } catch (error) {
+        console.log(email)
+
+        console.log(error);
         // duplicate key
         if (error.keyPattern.username == 1 && error.code == 11000) {
             return res.json({ status: 'error', error: 'This username is already in use.' })

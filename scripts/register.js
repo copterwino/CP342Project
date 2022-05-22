@@ -32,10 +32,12 @@ async function registerUser(event) {
     if(result.status ==='ok'){
         Swal.fire({
             title: 'Success!',
-            text: 'registration Successfully!',
+            text: 'Registration Successfully!',
             icon: 'success',
             confirmButtonText: 'OK'
-        });
+        }).then(() => 
+        window.location.href="/login"
+    );;
     }else{
         Swal.fire({
             title: 'Oops!',
