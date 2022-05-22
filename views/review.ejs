@@ -8,6 +8,16 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css" />
 
 </head>
@@ -35,15 +45,32 @@
                 <div class="w3-container w3-content w3-padding-64" style="max-width:800px">
                     <h1 class="w3-wide w3-center w3-text-yellow">Thank you,"<%= order.username %>"</h1>
                     <h2 class="w3-wide w3-center">Your order ID is</h2>
-                    <h2 class="w3-wide w3-center">"<b class=" w3-text-red"><%= order._id %></b>"</h2>
-                    <h4 class="w3-wide w3-center">Concert : <b class="w3-text-green"><%= order.conName %></b></h4>
-                    <h4 class="w3-wide w3-center">Hall : <b class="w3-text-green"><%= concert.hallName %></b> </h4>
-                    <h4 class="w3-wide w3-center">Zone : <b class="w3-text-green"><%= order.zoneName %></b> </h4>
-                    <h4 class="w3-wide w3-center">Amount : <b class="w3-text-green"><%= order.amount%></b> </h4>
-                    <h4 class="w3-wide w3-center">Total : <b class="w3-text-green"><%= order.total %></b> </h4>
-                    <h4 class="w3-wide w3-center">Ordered date: <b class="w3-text-green"><%= moment(order.uploadDate).format("DD MMMM YYYY"); %></b> </h4>
-                    <div class="w3-row-padding w3-padding-32" style="margin:0 -16px">
-                    </div>
+                    <h2 class="w3-wide w3-center">"<b class=" w3-text-red">
+                            <%= order._id %>
+                        </b>"</h2>
+                    <h4 class="w3-wide w3-center">Concert : <b class="w3-text-green">
+                            <%= order.conName %>
+                        </b></h4>
+                    <h4 class="w3-wide w3-center">Hall : <b class="w3-text-green">
+                            <%= concert.hallName %>
+                        </b> </h4>
+                    <h4 class="w3-wide w3-center">Zone : <b class="w3-text-green">
+                            <%= order.zoneName %>
+                        </b> </h4>
+                    <h4 class="w3-wide w3-center">Amount : <b class="w3-text-green">
+                            <%= order.amount%>
+                        </b> </h4>
+                    <h4 class="w3-wide w3-center">Total : <b class="w3-text-green">
+                            <%= order.total %>
+                        </b> </h4>
+                    <h4 class="w3-wide w3-center">Ordered date: <b class="w3-text-green">
+                            <%= moment(order.uploadDate).format("DD MMMM YYYY"); %>
+                        </b> </h4>
+                    <center>
+                        <button class="w-60 w3-border-red btn btn-lg btn-primary mt-4 w3-red w3-center"
+                            onclick="document.location='/payment'">Pay now</button>
+
+                    </center>
 
                 </div>
 
